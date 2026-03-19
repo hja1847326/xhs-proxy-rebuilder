@@ -19,6 +19,10 @@ PREFLIGHT_RENDER=${PREFLIGHT_RENDER:-$PROJECT_DIR/scripts/render_preflight_summa
 APPLY_NETWORK_PLAN=${APPLY_NETWORK_PLAN:-1}
 NETWORK_PLAN_SCRIPT=${NETWORK_PLAN_SCRIPT:-$PROJECT_DIR/scripts/apply_network_plan.py}
 RESOURCE_PLAN_SOURCE=${RESOURCE_PLAN_SOURCE:-$OUTPUT_DIR/resource-plan.json}
+APPLY_NETNS_EXPANSION=${APPLY_NETNS_EXPANSION:-1}
+NETNS_EXPANSION_SCRIPT=${NETNS_EXPANSION_SCRIPT:-$PROJECT_DIR/scripts/apply_netns_expansion.py}
+NETNS_EXPANSION_PLAN=${NETNS_EXPANSION_PLAN:-$OUTPUT_DIR/netns-expansion-plan.json}
+GOST_BIN=${GOST_BIN:-/usr/local/sbin/gost}
 
 require_root() {
   if [[ ${EUID:-$(id -u)} -ne 0 ]]; then
@@ -130,6 +134,26 @@ apply_network_plan_if_enabled() {
   "$PREFLIGHT_PYTHON" "$NETWORK_PLAN_SCRIPT" --resource-plan "$RESOURCE_PLAN_SOURCE" || true
 }
 
+apply_netns_expansion_if_enabled() {
+  if [[ "$APPLY_NETNS_EXPANSION" != "1" ]]; then
+    echo "APPLY_NETNS_EXPANSION=0 -> skip netns expansion plan"
+    return 0
+  fi
+
+  if [[ ! -f "$NETNS_EXPANSION_SCRIPT" ]]; then
+    echo "Netns expansion script not found: $NETNS_EXPANSION_SCRIPT" >&2
+    return 0
+  fi
+
+  if [[ ! -f "$NETNS_EXPANSION_PLAN" ]]; then
+    echo "netns-expansion-plan.json not found: $NETNS_EXPANSION_PLAN"
+    return 0
+  fi
+
+  echo "Applying netns expansion plan..."
+  "$PREFLIGHT_PYTHON" "$NETNS_EXPANSION_SCRIPT" --plan "$NETNS_EXPANSION_PLAN" --gost-bin "$GOST_BIN" || true
+}
+
 main() {
   require_root
 
@@ -143,6 +167,7 @@ main() {
   install_xray_if_missing
   run_preflight
   apply_network_plan_if_enabled
+  apply_netns_expansion_if_enabled
 
   mkdir -p /etc/xray
 

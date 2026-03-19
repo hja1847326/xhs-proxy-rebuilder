@@ -215,6 +215,60 @@ def write_resource_plan(inventory: dict, output_dir: Path) -> Path:
     return resource_path
 
 
+def write_netns_expansion_plan(inventory: dict, output_dir: Path) -> Path:
+    resources = inventory.get("resources", {}) if isinstance(inventory, dict) else {}
+    egresses = resources.get("egresses", []) if isinstance(resources, dict) else []
+    proxies = inventory.get("proxies", []) if isinstance(inventory, dict) else []
+
+    egress_map = {
+        item.get("id"): item
+        for item in egresses
+        if isinstance(item, dict) and item.get("id")
+    }
+
+    plan = []
+    for proxy in proxies:
+        if not isinstance(proxy, dict):
+            continue
+        resource_id = proxy.get("resource_id")
+        if not resource_id:
+            continue
+        resource = egress_map.get(resource_id)
+        if not resource or resource.get("kind") != "secondary_nic":
+            continue
+        vlan = resource.get("source_vlan")
+        if vlan in (None, ""):
+            continue
+        plan.append(
+            {
+                "resource_id": resource_id,
+                "name": proxy.get("name"),
+                "bind_ip": resource.get("bind_ip"),
+                "port": proxy.get("port"),
+                "username": proxy.get("username"),
+                "password": str(proxy.get("password", "")),
+                "account_label": proxy.get("account_label"),
+                "source_mac": resource.get("source_mac", ""),
+                "source_vlan": int(vlan),
+                "source_format": resource.get("source_format", ""),
+                "expected_public_ip": resource.get("expected_public_ip", ""),
+                "public_listen_ip": proxy.get("listen_ip", ""),
+                "netns_name": f"ns{int(vlan)}",
+                "vlan_link": f"eth0.{int(vlan)}",
+                "nameservers": ["223.5.5.5"],
+                "gateway": "192.168.0.1",
+                "prefix": 24,
+            }
+        )
+
+    plan_path = output_dir / "netns-expansion-plan.json"
+    plan_path.write_text(
+        json.dumps(plan, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return plan_path
+
+
 def write_install_notes(output_dir: Path, config_path: Path, service_path: Path) -> None:
     notes = f"""# Install Notes
 
@@ -329,6 +383,7 @@ def main() -> int:
 
     write_exports(inventory, output_dir)
     resource_plan_path = write_resource_plan(inventory, output_dir)
+    netns_plan_path = write_netns_expansion_plan(inventory, output_dir)
     service_path = write_systemd_unit(output_dir, Path("/etc/xray/config.json"))
     write_install_notes(output_dir, xray_config_path, service_path)
     write_manifest(output_dir, inventory_path, profile_path, inventory)
@@ -339,6 +394,7 @@ def main() -> int:
             print(f"Profile: {profile_path}")
         print(f"Generated xray config: {xray_config_path}")
         print(f"Generated resource plan: {resource_plan_path}")
+        print(f"Generated netns expansion plan: {netns_plan_path}")
         print(f"Generated systemd service: {service_path}")
         print(f"Generated manifest: {output_dir / 'build-manifest.json'}")
         print(f"Generated exports in: {output_dir}")

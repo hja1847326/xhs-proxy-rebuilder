@@ -57,6 +57,10 @@ python3 scripts/package_release.py --generated-dir generated-build
 sudo bash scripts/install.sh generated-build
 ```
 
+默认会同时尝试：
+- 基础 4 路运行态补齐（`resource-plan.json`）
+- txt 扩展路 `VLAN + netns + gost` 落地（`netns-expansion-plan.json`）
+
 详细流程见：`docs/usage-flow-v1.md`
 
 ## 当前状态

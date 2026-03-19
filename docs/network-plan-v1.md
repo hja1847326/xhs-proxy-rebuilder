@@ -36,6 +36,8 @@ APPLY_NETWORK_PLAN=0 bash scripts/install.sh generated-build
 
 ## 已知边界
 
-- 当前 V1 更偏向“运行时补齐固定 4 路”
-- `4+N` 中的 `N`（txt 扩展网卡）还需要后续补 MAC→设备 的自动映射策略
+- 当前 V1 中，基础 4 路继续由 `apply_network_plan.py` 处理
+- `4+N` 中的 `N`（txt 扩展网卡）现已单独走 `apply_netns_expansion.py`
+- 扩展路默认按 `eth0.<VLAN> + netns + gost` 落地，而不是主命名空间旁挂
 - 华为云控制台资源存在，不代表系统里已经热插/枚举到对应设备
+- 当前仍要求目标机存在可执行 `gost`（默认 `/usr/local/sbin/gost`）

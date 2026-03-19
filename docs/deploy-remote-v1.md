@@ -78,6 +78,16 @@ cd /root/release-bundle-10ip
 bash install.sh .
 ```
 
+如果 bundle 中包含 txt 扩展路，安装器会额外读取：
+
+- `resource-plan.json`
+- `netns-expansion-plan.json`
+
+并自动尝试落地：
+
+- 基础 4 路策略路由
+- 扩展路 `VLAN + netns + gost`
+
 ### 旁挂测试安装
 
 ```bash
