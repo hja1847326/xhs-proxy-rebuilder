@@ -80,6 +80,7 @@ def main() -> int:
     parser.add_argument("--bundle-dir", default="dist/release-bundle", help="Bundle output directory")
     parser.add_argument("--profile", help="Profile used to generate this bundle")
     parser.add_argument("--inventory", help="Inventory used to generate this bundle")
+    parser.add_argument("--gost-bin", help="Optional gost binary to include in the bundle as ./gost")
     parser.add_argument("--quiet", action="store_true", help="Suppress normal summary output")
     args = parser.parse_args()
 
@@ -112,12 +113,15 @@ def main() -> int:
         (BASE_DIR / "scripts" / "xhs_proxy_cli.py", bundle_dir / "scripts" / "xhs_proxy_cli.py"),
         (BASE_DIR / "docs" / "netns-validation-v1.md", bundle_dir / "NETNS-VALIDATION.md"),
         (BASE_DIR / "docs" / "healthcheck-install-v1.md", bundle_dir / "HEALTHCHECK-INSTALL.md"),
+        (BASE_DIR / "docs" / "post-install-verify-v1.md", bundle_dir / "POST-INSTALL-VERIFY.md"),
     ]
 
     if args.profile:
         file_map.append((resolve(args.profile), bundle_dir / "source-profile.yaml"))
     if args.inventory:
         file_map.append((resolve(args.inventory), bundle_dir / "source-inventory.yaml"))
+    if args.gost_bin:
+        file_map.append((resolve(args.gost_bin), bundle_dir / "gost"))
 
     for src, dst in file_map:
         if copy_if_exists(src, dst):

@@ -17,6 +17,7 @@ def main() -> int:
     parser.add_argument("--timeout", type=int, default=12, help="curl max time seconds")
     parser.add_argument("--proxy-host-field", choices=["bind_ip", "public_listen_ip"], default="bind_ip")
     parser.add_argument("--skip-proxy", action="store_true", help="Only validate direct netns egress")
+    parser.add_argument("--skip-direct", action="store_true", help="Skip direct netns curl and only test proxy path")
     args = parser.parse_args()
 
     plan = json.loads(Path(args.plan).read_text(encoding="utf-8"))
@@ -35,14 +36,19 @@ def main() -> int:
         proxy_host = item.get(args.proxy_host_field) or bind_ip
         expected_public_ip = item.get("expected_public_ip", "")
 
-        direct_cmd = [
-            "ip", "netns", "exec", netns,
-            "curl", "-4", "-sS", "--max-time", str(args.timeout), args.endpoint,
-        ]
-        d_code, d_out, d_err = run(direct_cmd)
-        direct_ok = d_code == 0 and bool(d_out)
-        if expected_public_ip:
-            direct_ok = direct_ok and d_out.strip() == expected_public_ip
+        d_out = ""
+        d_err = ""
+        d_code = 0
+        direct_ok = True
+        if not args.skip_direct:
+            direct_cmd = [
+                "ip", "netns", "exec", netns,
+                "curl", "-4", "-sS", "--max-time", str(args.timeout), args.endpoint,
+            ]
+            d_code, d_out, d_err = run(direct_cmd)
+            direct_ok = d_code == 0 and bool(d_out)
+            if expected_public_ip:
+                direct_ok = direct_ok and d_out.strip() == expected_public_ip
 
         proxy_ok = None
         p_out = ""

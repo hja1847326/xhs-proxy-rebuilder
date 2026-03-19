@@ -26,6 +26,7 @@ FILES = [
     "scripts/apply_netns_expansion.py",
     "scripts/validate_netns_expansion.py",
     "scripts/healthcheck_install.py",
+    "scripts/post_install_verify.py",
 ]
 
 

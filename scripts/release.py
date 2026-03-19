@@ -40,6 +40,7 @@ def main() -> int:
     parser.add_argument("--vip", action="append", dest="vip_ips", default=None, help="VIP bind IP (repeatable)")
     parser.add_argument("--start-port", type=int, help="Override starting proxy port")
     parser.add_argument("--default-password", help="Override fallback default password")
+    parser.add_argument("--gost-bin", help="Optional gost binary to include in the release bundle")
     args = parser.parse_args()
 
     profile_path = resolve(args.profile)
@@ -111,6 +112,8 @@ def main() -> int:
         str(inventory_path),
         "--quiet",
     ]
+    if args.gost_bin:
+        package_cmd.extend(["--gost-bin", str(resolve(args.gost_bin))])
 
     stage("PACKAGE")
     run(package_cmd, "package")

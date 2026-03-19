@@ -95,6 +95,15 @@ cd /root/release-bundle-10ip
 GOST_SOURCE=/root/gost bash install.sh .
 ```
 
+或者在出包时直接把 `gost` 带进 bundle：
+
+```bash
+python3 scripts/release.py \
+  --inventory inventory/sample-4plus6.yaml \
+  --bundle-dir dist/release-bundle-4plus6 \
+  --gost-bin /path/to/gost
+```
+
 ### 旁挂测试安装
 
 ```bash
