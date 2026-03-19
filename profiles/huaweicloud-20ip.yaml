@@ -1,0 +1,29 @@
+name: huaweicloud-20ip
+
+defaults:
+  primary_ip: 192.168.0.10
+  vip_ips:
+    - 192.168.0.11
+    - 192.168.0.12
+  secondary_nic_ips:
+    - 192.168.0.250
+  start_port: 19001
+  default_password: 123456
+  output_dir: generated-build-20ip
+  inventory_output: inventory/generated-20ip.yaml
+
+strategy:
+  username:
+    mode: prefix_counter
+    prefix: vip
+    start: 1
+  password:
+    mode: random
+    length: 12
+  port:
+    mode: incremental
+    start: 19001
+
+notes:
+  - 面向华为云 20IP 扩展版
+  - 默认随机密码长度 12

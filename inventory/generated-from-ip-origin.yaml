@@ -1,0 +1,100 @@
+server:
+  provider: huaweicloud
+  region: ''
+  hostname: ''
+  os: ''
+resources:
+  egresses:
+  - id: main
+    bind_ip: 192.168.0.10
+    expected_public_ip: ''
+    kind: primary
+    note: 主IP出口
+  - id: vip1
+    bind_ip: 192.168.0.11
+    expected_public_ip: ''
+    kind: vip
+    note: 虚拟IP 1
+  - id: vip2
+    bind_ip: 192.168.0.12
+    expected_public_ip: ''
+    kind: vip
+    note: 虚拟IP 2
+  - id: nic1
+    bind_ip: 192.168.1.250
+    expected_public_ip: ''
+    kind: secondary_nic
+    note: 辅助弹性网卡 1 mac=aa:bb:cc:dd:ee:01 vlan=4010
+    source_mac: aa:bb:cc:dd:ee:01
+    source_vlan: 4010
+  - id: nic2
+    bind_ip: 192.168.1.251
+    expected_public_ip: ''
+    kind: secondary_nic
+    note: 辅助弹性网卡 2 mac=aa:bb:cc:dd:ee:02 vlan=4011
+    source_mac: aa:bb:cc:dd:ee:02
+    source_vlan: 4011
+  - id: nic3
+    bind_ip: 192.168.1.252
+    expected_public_ip: ''
+    kind: secondary_nic
+    note: 辅助弹性网卡 3 mac=aa:bb:cc:dd:ee:03 vlan=4012
+    source_mac: aa:bb:cc:dd:ee:03
+    source_vlan: 4012
+  - id: nic4
+    bind_ip: 192.168.1.253
+    expected_public_ip: ''
+    kind: secondary_nic
+    note: 辅助弹性网卡 4 mac=aa:bb:cc:dd:ee:04 vlan=4013
+    source_mac: aa:bb:cc:dd:ee:04
+    source_vlan: 4013
+proxies:
+- name: proxy01
+  resource_id: main
+  listen_ip: 192.168.0.10
+  port: 19001
+  username: vip1
+  password: '123456'
+  account_label: vip1
+- name: proxy02
+  resource_id: vip1
+  listen_ip: 192.168.0.11
+  port: 19002
+  username: vip2
+  password: '123456'
+  account_label: vip2
+- name: proxy03
+  resource_id: vip2
+  listen_ip: 192.168.0.12
+  port: 19003
+  username: vip3
+  password: '123456'
+  account_label: vip3
+- name: proxy04
+  resource_id: nic1
+  listen_ip: 192.168.1.250
+  port: 19004
+  username: vip4
+  password: '123456'
+  account_label: vip4
+- name: proxy05
+  resource_id: nic2
+  listen_ip: 192.168.1.251
+  port: 19005
+  username: vip5
+  password: '123456'
+  account_label: vip5
+- name: proxy06
+  resource_id: nic3
+  listen_ip: 192.168.1.252
+  port: 19006
+  username: vip6
+  password: '123456'
+  account_label: vip6
+- name: proxy07
+  resource_id: nic4
+  listen_ip: 192.168.1.253
+  port: 19007
+  username: vip7
+  password: '123456'
+  account_label: vip7

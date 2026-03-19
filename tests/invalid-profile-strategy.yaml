@@ -1,0 +1,10 @@
+name: broken-profile
+strategy:
+  username:
+    mode: nonsense_mode
+  password:
+    mode: random
+    length: 2
+  port:
+    mode: weird_mode
+    start: 70000

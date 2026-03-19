@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Build / release outputs
+dist/
+generated/
+generated-build-*/
+generated-build-10ip/
+generated-build-4plusn-test/
+generated-build-from-user/
+generated-build-manifest-test/
+generated-build-minimal/
+generated-build-netplan-test/
+generated-build-profile-test/
+generated-build-strategy-test/
+generated-from-*/
+generated-from-ip-origin/
+generated-from-user-ip-origin/
+generated-v2/
+generated-new-server-draft/
+
+# Temp / local experiments
+tmp/
+tmp-*.json
+*.log
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

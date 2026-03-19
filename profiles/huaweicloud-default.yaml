@@ -1,0 +1,30 @@
+name: huaweicloud-default
+
+defaults:
+  primary_ip: 192.168.0.10
+  vip_ips:
+    - 192.168.0.11
+    - 192.168.0.12
+  secondary_nic_ips:
+    - 192.168.0.250
+  start_port: 19001
+  default_password: 123456
+  output_dir: generated-build
+  inventory_output: inventory/generated-from-profile.yaml
+
+strategy:
+  username:
+    mode: prefix_counter
+    prefix: vip
+    start: 1
+  password:
+    mode: fixed
+    value: 123456
+  port:
+    mode: incremental
+    start: 19001
+
+notes:
+  - 默认面向华为云 ECS
+  - ip_origin 默认按 IP + VLAN + MAC 解析
+  - 当前默认保留 vip1/vip2/vip3 这类账号命名风格

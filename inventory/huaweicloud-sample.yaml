@@ -1,0 +1,50 @@
+server:
+  provider: huaweicloud
+  region: cn-east-3
+  hostname: ecs-example
+  os: centos7
+
+network:
+  primary_ip: 192.168.0.10
+  vip_ips:
+    - 192.168.0.11
+    - 192.168.0.12
+  extra_interface_ips:
+    - 192.168.1.250
+
+proxies:
+  - name: proxy01
+    listen_ip: 192.168.0.10
+    port: 19001
+    username: vip1
+    password: 123456
+    send_through: 192.168.0.10
+    expected_public_ip: 122.9.78.47
+    account_label: vip1
+
+  - name: proxy02
+    listen_ip: 192.168.0.11
+    port: 19002
+    username: vip2
+    password: 123456
+    send_through: 192.168.0.11
+    expected_public_ip: 116.63.211.118
+    account_label: vip2
+
+  - name: proxy03
+    listen_ip: 192.168.0.12
+    port: 19003
+    username: vip3
+    password: 123456
+    send_through: 192.168.0.12
+    expected_public_ip: 116.63.208.139
+    account_label: vip3
+
+  - name: proxy04
+    listen_ip: 192.168.1.250
+    port: 19004
+    username: vip4
+    password: 123456
+    send_through: 192.168.1.250
+    expected_public_ip: ""
+    account_label: vip4

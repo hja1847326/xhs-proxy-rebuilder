@@ -1,0 +1,25 @@
+server:
+  provider: huaweicloud
+resources:
+  egresses:
+    - id: main
+      bind_ip: 192.168.0.10
+      kind: primary
+    - id: vip1
+      bind_ip: 192.168.0.11
+      kind: vip
+proxies:
+  - name: proxy01
+    resource_id: main
+    listen_ip: 192.168.0.10
+    port: 19001
+    username: vip1
+    password: abc12345
+    account_label: vip1
+  - name: proxy02
+    resource_id: vip1
+    listen_ip: 192.168.0.11
+    port: 19002
+    username: vip1
+    password: def67890
+    account_label: vip1

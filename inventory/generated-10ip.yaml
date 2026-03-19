@@ -1,0 +1,59 @@
+server:
+  provider: huaweicloud
+  region: ''
+  hostname: ''
+  os: ''
+resources:
+  egresses:
+  - id: main
+    bind_ip: 192.168.0.10
+    expected_public_ip: ''
+    kind: primary
+    note: 主IP出口
+  - id: vip1
+    bind_ip: 192.168.0.11
+    expected_public_ip: ''
+    kind: vip
+    note: 虚拟IP 1
+  - id: vip2
+    bind_ip: 192.168.0.12
+    expected_public_ip: ''
+    kind: vip
+    note: 虚拟IP 2
+  - id: nic1
+    bind_ip: 192.168.0.88
+    expected_public_ip: ''
+    kind: secondary_nic
+    note: 辅助弹性网卡 1 mac=fa:16:3e:8b:e3:3b vlan=1866
+    source_mac: fa:16:3e:8b:e3:3b
+    source_vlan: 1866
+    source_format: ip-vlan-mac
+proxies:
+- name: proxy01
+  resource_id: main
+  listen_ip: 192.168.0.10
+  port: 19001
+  username: vip1
+  password: v5FLoVorpw
+  account_label: vip1
+- name: proxy02
+  resource_id: vip1
+  listen_ip: 192.168.0.11
+  port: 19002
+  username: vip2
+  password: VuFsvPPwuw
+  account_label: vip2
+- name: proxy03
+  resource_id: vip2
+  listen_ip: 192.168.0.12
+  port: 19003
+  username: vip3
+  password: p59F2Ym9qq
+  account_label: vip3
+- name: proxy04
+  resource_id: nic1
+  listen_ip: 192.168.0.88
+  port: 19004
+  username: vip4
+  password: QB3VRdrtNO
+  account_label: vip4
