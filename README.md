@@ -61,6 +61,11 @@ sudo bash scripts/install.sh generated-build
 - 基础 4 路运行态补齐（`resource-plan.json`）
 - txt 扩展路 `VLAN + netns + gost` 落地（`netns-expansion-plan.json`）
 
+如果目标机没有 `gost`，可额外提供：
+```bash
+sudo GOST_SOURCE=/path/to/gost bash scripts/install.sh generated-build
+```
+
 详细流程见：`docs/usage-flow-v1.md`
 
 ## 当前状态

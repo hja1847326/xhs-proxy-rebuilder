@@ -102,6 +102,7 @@ def main() -> int:
         (BASE_DIR / "scripts" / "install.sh", bundle_dir / "install.sh"),
         (BASE_DIR / "scripts" / "apply_network_plan.py", bundle_dir / "apply_network_plan.py"),
         (BASE_DIR / "scripts" / "apply_netns_expansion.py", bundle_dir / "apply_netns_expansion.py"),
+        (BASE_DIR / "scripts" / "validate_netns_expansion.py", bundle_dir / "validate_netns_expansion.py"),
         (BASE_DIR / "scripts" / "test_proxies.py", bundle_dir / "test_proxies.py"),
         (BASE_DIR / "scripts" / "remote_preflight.sh", bundle_dir / "remote_preflight.sh"),
         (BASE_DIR / "scripts" / "render_preflight_summary.py", bundle_dir / "render_preflight_summary.py"),
@@ -109,6 +110,7 @@ def main() -> int:
         (BASE_DIR / "scripts" / "install_xhs_proxy_from_url.sh", bundle_dir / "install_xhs_proxy_from_url.sh"),
         (BASE_DIR / "xhs-proxy", bundle_dir / "xhs-proxy"),
         (BASE_DIR / "scripts" / "xhs_proxy_cli.py", bundle_dir / "scripts" / "xhs_proxy_cli.py"),
+        (BASE_DIR / "docs" / "netns-validation-v1.md", bundle_dir / "NETNS-VALIDATION.md"),
     ]
 
     if args.profile:

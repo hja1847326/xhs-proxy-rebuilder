@@ -35,7 +35,7 @@ bash scripts/install_xhs_proxy_remote.sh https://example.com/xhs-proxy-cli.tar.g
 - 可先打 tar.gz
 - 可从 tar.gz 安装
 - 将来换成 URL，只是换传输来源，不是重写安装逻辑
-- CLI 包已包含 `apply_network_plan.py` / `apply_netns_expansion.py`，可支撑 `4+N` 的运行态补齐
+- CLI 包已包含 `apply_network_plan.py` / `apply_netns_expansion.py` / `validate_netns_expansion.py`，可支撑 `4+N` 的运行态补齐与验证
 
 ## 当前限制
 

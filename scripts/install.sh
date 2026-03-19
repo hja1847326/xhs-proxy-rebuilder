@@ -23,6 +23,8 @@ APPLY_NETNS_EXPANSION=${APPLY_NETNS_EXPANSION:-1}
 NETNS_EXPANSION_SCRIPT=${NETNS_EXPANSION_SCRIPT:-$PROJECT_DIR/scripts/apply_netns_expansion.py}
 NETNS_EXPANSION_PLAN=${NETNS_EXPANSION_PLAN:-$OUTPUT_DIR/netns-expansion-plan.json}
 GOST_BIN=${GOST_BIN:-/usr/local/sbin/gost}
+GOST_SOURCE=${GOST_SOURCE:-$OUTPUT_DIR/gost}
+AUTO_PREPARE_GOST=${AUTO_PREPARE_GOST:-1}
 
 require_root() {
   if [[ ${EUID:-$(id -u)} -ne 0 ]]; then
@@ -60,6 +62,30 @@ install_xray_if_missing() {
   echo "Please install xray manually first, then rerun this installer."
   echo "Recommended target binary path: /usr/local/bin/xray"
   exit 2
+}
+
+prepare_gost_if_needed() {
+  if [[ "$AUTO_PREPARE_GOST" != "1" ]]; then
+    echo "AUTO_PREPARE_GOST=0 -> skip gost prepare"
+    return 0
+  fi
+
+  if [[ -x "$GOST_BIN" ]]; then
+    echo "Found gost binary: $GOST_BIN"
+    return 0
+  fi
+
+  if [[ -f "$NETNS_EXPANSION_PLAN" ]] && [[ -s "$NETNS_EXPANSION_PLAN" ]] && [[ -f "$GOST_SOURCE" ]]; then
+    install -D -m 0755 "$GOST_SOURCE" "$GOST_BIN"
+    echo "Installed gost from bundle/source: $GOST_SOURCE -> $GOST_BIN"
+    return 0
+  fi
+
+  if [[ -f "$NETNS_EXPANSION_PLAN" ]] && grep -q '"source_vlan"' "$NETNS_EXPANSION_PLAN"; then
+    echo "gost is required for netns expansion routes, but not found at $GOST_BIN" >&2
+    echo "Provide GOST_SOURCE=/path/to/gost or place a gost binary at $OUTPUT_DIR/gost" >&2
+    exit 5
+  fi
 }
 
 rewrite_service_execstart() {
@@ -165,6 +191,7 @@ main() {
   require_file "$source_config"
   require_file "$source_service"
   install_xray_if_missing
+  prepare_gost_if_needed
   run_preflight
   apply_network_plan_if_enabled
   apply_netns_expansion_if_enabled

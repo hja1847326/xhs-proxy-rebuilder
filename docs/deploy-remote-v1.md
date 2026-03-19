@@ -88,6 +88,13 @@ bash install.sh .
 - 基础 4 路策略路由
 - 扩展路 `VLAN + netns + gost`
 
+如果目标机缺 `gost`，可这样安装：
+
+```bash
+cd /root/release-bundle-10ip
+GOST_SOURCE=/root/gost bash install.sh .
+```
+
 ### 旁挂测试安装
 
 ```bash

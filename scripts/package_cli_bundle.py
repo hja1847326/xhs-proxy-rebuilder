@@ -24,6 +24,7 @@ FILES = [
     "scripts/test_proxies.py",
     "scripts/apply_network_plan.py",
     "scripts/apply_netns_expansion.py",
+    "scripts/validate_netns_expansion.py",
 ]
 
 
