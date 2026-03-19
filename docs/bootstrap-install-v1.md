@@ -45,5 +45,6 @@ xhs-proxy smoke-test
 
 ## 当前限制
 
-- 还没有做 curl/bash 远程一键安装 URL
+- 仍要求目标机具备 `python3`
+- 如果要落 txt 扩展路，还要求目标机具备 `gost`（默认 `/usr/local/sbin/gost`）
 - 仍然基于本地项目文件进行 bootstrap

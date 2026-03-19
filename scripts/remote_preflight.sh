@@ -9,6 +9,8 @@ SERVICE_TARGET=${SERVICE_TARGET:-/etc/systemd/system/${SERVICE_NAME}.service}
 PROXIES_TXT=${PROXIES_TXT:-$BUNDLE_DIR/proxies.txt}
 RENDER_SUMMARY=${RENDER_SUMMARY:-1}
 SUMMARY_RENDERER=${SUMMARY_RENDERER:-$BUNDLE_DIR/render_preflight_summary.py}
+GOST_BIN=${GOST_BIN:-/usr/local/sbin/gost}
+NETNS_PLAN=${NETNS_PLAN:-$BUNDLE_DIR/netns-expansion-plan.json}
 
 json_escape() {
   python3 - <<'PY' "$1"
@@ -77,6 +79,22 @@ main() {
 
   if [[ ! -x "$XRAY_BIN" ]]; then
     append_json_array issues "xray binary not found: $XRAY_BIN"
+  fi
+
+  if [[ -f "$NETNS_PLAN" ]] && python3 - <<'PY' "$NETNS_PLAN"
+import json, sys
+p = sys.argv[1]
+try:
+    data = json.load(open(p, 'r', encoding='utf-8'))
+    print('1' if isinstance(data, list) and len(data) > 0 else '0')
+except Exception:
+    print('0')
+PY
+ | grep -q '^1$'; then
+    if [[ ! -x "$GOST_BIN" ]]; then
+      append_json_array warnings "gost binary not found: $GOST_BIN"
+      append_json_array suggestions "This bundle includes txt expansion routes; install gost or override GOST_BIN before running install.sh"
+    fi
   fi
 
   if ! command -v systemctl >/dev/null 2>&1; then

@@ -41,6 +41,8 @@ main() {
   cp "$PROJECT_DIR/scripts/package_release.py" "$TARGET_LIB/scripts/package_release.py"
   cp "$PROJECT_DIR/scripts/remote_preflight.sh" "$TARGET_LIB/scripts/remote_preflight.sh"
   cp "$PROJECT_DIR/scripts/test_proxies.py" "$TARGET_LIB/scripts/test_proxies.py"
+  cp "$PROJECT_DIR/scripts/apply_network_plan.py" "$TARGET_LIB/scripts/apply_network_plan.py"
+  cp "$PROJECT_DIR/scripts/apply_netns_expansion.py" "$TARGET_LIB/scripts/apply_netns_expansion.py"
 
   cp "$PROJECT_DIR/profiles/"*.yaml "$TARGET_LIB/profiles/"
 

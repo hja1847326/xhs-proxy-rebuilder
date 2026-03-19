@@ -46,6 +46,7 @@ def main() -> int:
     parser.add_argument("--config-target", help="Target config path")
     parser.add_argument("--service-target", help="Target service file path")
     parser.add_argument("--static-only", action="store_true", help="Skip local bind probing; only run static checks")
+    parser.add_argument("--gost-bin", default="/usr/local/sbin/gost", help="Target gost binary path for netns expansion")
     args = parser.parse_args()
 
     generated_dir = (BASE_DIR / args.generated_dir).resolve() if not Path(args.generated_dir).is_absolute() else Path(args.generated_dir)
@@ -55,6 +56,7 @@ def main() -> int:
 
     proxies_path = generated_dir / "proxies.json"
     xray_config_path = generated_dir / "xray-config.json"
+    netns_plan_path = generated_dir / "netns-expansion-plan.json"
     issues: list[str] = []
     warnings: list[str] = []
     suggestions: list[str] = []
@@ -70,6 +72,21 @@ def main() -> int:
     xray_exists = Path(args.xray_bin).exists() and Path(args.xray_bin).is_file()
     if not xray_exists:
         issues.append(f"xray binary not found: {args.xray_bin}")
+
+    gost_required = False
+    if netns_plan_path.exists():
+        try:
+            netns_items = json.loads(netns_plan_path.read_text(encoding="utf-8"))
+            gost_required = isinstance(netns_items, list) and len(netns_items) > 0
+        except Exception:
+            warnings.append(f"Invalid netns-expansion-plan.json: {netns_plan_path}")
+            netns_items = []
+    else:
+        netns_items = []
+
+    if gost_required and not (Path(args.gost_bin).exists() and Path(args.gost_bin).is_file()):
+        warnings.append(f"gost binary not found: {args.gost_bin}")
+        suggestions.append("If this bundle includes txt expansion routes, install gost or override GOST_BIN before running install.sh")
 
     systemctl_exists = shutil.which("systemctl") is not None
     if not systemctl_exists:
@@ -147,6 +164,7 @@ def main() -> int:
         "generated_dir": str(generated_dir),
         "service_name": service_name,
         "xray_bin": args.xray_bin,
+        "gost_bin": args.gost_bin,
         "config_target": str(config_target),
         "service_target": str(service_target),
         "static_only": args.static_only,

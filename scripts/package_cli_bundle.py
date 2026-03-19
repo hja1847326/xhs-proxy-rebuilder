@@ -22,6 +22,8 @@ FILES = [
     "scripts/package_release.py",
     "scripts/remote_preflight.sh",
     "scripts/test_proxies.py",
+    "scripts/apply_network_plan.py",
+    "scripts/apply_netns_expansion.py",
 ]
 
 
