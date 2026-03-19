@@ -111,6 +111,7 @@ def main() -> int:
         (BASE_DIR / "xhs-proxy", bundle_dir / "xhs-proxy"),
         (BASE_DIR / "scripts" / "xhs_proxy_cli.py", bundle_dir / "scripts" / "xhs_proxy_cli.py"),
         (BASE_DIR / "docs" / "netns-validation-v1.md", bundle_dir / "NETNS-VALIDATION.md"),
+        (BASE_DIR / "docs" / "healthcheck-install-v1.md", bundle_dir / "HEALTHCHECK-INSTALL.md"),
     ]
 
     if args.profile:

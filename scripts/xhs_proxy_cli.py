@@ -14,6 +14,7 @@ COMMAND_MAP = {
     "preflight": SCRIPTS_DIR / "preflight_check.py",
     "smoke-test": SCRIPTS_DIR / "smoke_tests.py",
     "validate-netns": SCRIPTS_DIR / "validate_netns_expansion.py",
+    "healthcheck-install": SCRIPTS_DIR / "healthcheck_install.py",
     "bootstrap-install": SCRIPTS_DIR / "bootstrap_install.sh",
     "package-cli": SCRIPTS_DIR / "package_cli_bundle.py",
     "remote-install": SCRIPTS_DIR / "install_xhs_proxy_remote.sh",

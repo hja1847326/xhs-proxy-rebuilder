@@ -78,6 +78,8 @@ sudo GOST_SOURCE=/path/to/gost bash scripts/install.sh generated-build
 - 全局安装：`docs/bootstrap-install-v1.md`
 - 远程安装：`docs/remote-install-v2.md`
 - 扩展路模型：`docs/netns-expansion-v1.md`
+- 扩展路验证：`docs/netns-validation-v1.md`
+- 安装后健康检查：`docs/healthcheck-install-v1.md`
 - 第 5 路复盘：`docs/fifth-route-retrospective-v1.md`
 
 ## 项目结构

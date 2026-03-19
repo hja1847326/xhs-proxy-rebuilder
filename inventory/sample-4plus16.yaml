@@ -1,0 +1,48 @@
+server:
+  provider: huaweicloud
+  region: cn-east-3
+  hostname: sample-4plus16
+  os: centos7
+resources:
+  egresses:
+    - {id: main, bind_ip: 192.168.0.10, expected_public_ip: '', kind: primary, note: 主IP出口}
+    - {id: vip1, bind_ip: 192.168.0.11, expected_public_ip: '', kind: vip, note: 虚拟IP 1}
+    - {id: vip2, bind_ip: 192.168.0.12, expected_public_ip: '', kind: vip, note: 虚拟IP 2}
+    - {id: fixed-nic1, bind_ip: 192.168.0.250, expected_public_ip: '', kind: secondary_nic_fixed, note: 固定辅助弹性网卡 1}
+    - {id: nic1, bind_ip: 192.168.0.101, expected_public_ip: '', kind: secondary_nic, note: 扩展路 1 mac=fa:16:3e:10:00:01 vlan=1101, source_mac: fa:16:3e:10:00:01, source_vlan: 1101, source_format: ip-mac-vlan}
+    - {id: nic2, bind_ip: 192.168.0.102, expected_public_ip: '', kind: secondary_nic, note: 扩展路 2 mac=fa:16:3e:10:00:02 vlan=1102, source_mac: fa:16:3e:10:00:02, source_vlan: 1102, source_format: ip-mac-vlan}
+    - {id: nic3, bind_ip: 192.168.0.103, expected_public_ip: '', kind: secondary_nic, note: 扩展路 3 mac=fa:16:3e:10:00:03 vlan=1103, source_mac: fa:16:3e:10:00:03, source_vlan: 1103, source_format: ip-mac-vlan}
+    - {id: nic4, bind_ip: 192.168.0.104, expected_public_ip: '', kind: secondary_nic, note: 扩展路 4 mac=fa:16:3e:10:00:04 vlan=1104, source_mac: fa:16:3e:10:00:04, source_vlan: 1104, source_format: ip-mac-vlan}
+    - {id: nic5, bind_ip: 192.168.0.105, expected_public_ip: '', kind: secondary_nic, note: 扩展路 5 mac=fa:16:3e:10:00:05 vlan=1105, source_mac: fa:16:3e:10:00:05, source_vlan: 1105, source_format: ip-mac-vlan}
+    - {id: nic6, bind_ip: 192.168.0.106, expected_public_ip: '', kind: secondary_nic, note: 扩展路 6 mac=fa:16:3e:10:00:06 vlan=1106, source_mac: fa:16:3e:10:00:06, source_vlan: 1106, source_format: ip-mac-vlan}
+    - {id: nic7, bind_ip: 192.168.0.107, expected_public_ip: '', kind: secondary_nic, note: 扩展路 7 mac=fa:16:3e:10:00:07 vlan=1107, source_mac: fa:16:3e:10:00:07, source_vlan: 1107, source_format: ip-mac-vlan}
+    - {id: nic8, bind_ip: 192.168.0.108, expected_public_ip: '', kind: secondary_nic, note: 扩展路 8 mac=fa:16:3e:10:00:08 vlan=1108, source_mac: fa:16:3e:10:00:08, source_vlan: 1108, source_format: ip-mac-vlan}
+    - {id: nic9, bind_ip: 192.168.0.109, expected_public_ip: '', kind: secondary_nic, note: 扩展路 9 mac=fa:16:3e:10:00:09 vlan=1109, source_mac: fa:16:3e:10:00:09, source_vlan: 1109, source_format: ip-mac-vlan}
+    - {id: nic10, bind_ip: 192.168.0.110, expected_public_ip: '', kind: secondary_nic, note: 扩展路 10 mac=fa:16:3e:10:00:10 vlan=1110, source_mac: fa:16:3e:10:00:10, source_vlan: 1110, source_format: ip-mac-vlan}
+    - {id: nic11, bind_ip: 192.168.0.111, expected_public_ip: '', kind: secondary_nic, note: 扩展路 11 mac=fa:16:3e:10:00:11 vlan=1111, source_mac: fa:16:3e:10:00:11, source_vlan: 1111, source_format: ip-mac-vlan}
+    - {id: nic12, bind_ip: 192.168.0.112, expected_public_ip: '', kind: secondary_nic, note: 扩展路 12 mac=fa:16:3e:10:00:12 vlan=1112, source_mac: fa:16:3e:10:00:12, source_vlan: 1112, source_format: ip-mac-vlan}
+    - {id: nic13, bind_ip: 192.168.0.113, expected_public_ip: '', kind: secondary_nic, note: 扩展路 13 mac=fa:16:3e:10:00:13 vlan=1113, source_mac: fa:16:3e:10:00:13, source_vlan: 1113, source_format: ip-mac-vlan}
+    - {id: nic14, bind_ip: 192.168.0.114, expected_public_ip: '', kind: secondary_nic, note: 扩展路 14 mac=fa:16:3e:10:00:14 vlan=1114, source_mac: fa:16:3e:10:00:14, source_vlan: 1114, source_format: ip-mac-vlan}
+    - {id: nic15, bind_ip: 192.168.0.115, expected_public_ip: '', kind: secondary_nic, note: 扩展路 15 mac=fa:16:3e:10:00:15 vlan=1115, source_mac: fa:16:3e:10:00:15, source_vlan: 1115, source_format: ip-mac-vlan}
+    - {id: nic16, bind_ip: 192.168.0.116, expected_public_ip: '', kind: secondary_nic, note: 扩展路 16 mac=fa:16:3e:10:00:16 vlan=1116, source_mac: fa:16:3e:10:00:16, source_vlan: 1116, source_format: ip-mac-vlan}
+proxies:
+  - {name: proxy01, resource_id: main, listen_ip: 192.168.0.10, port: 19001, username: vip1, password: 123456, account_label: vip1}
+  - {name: proxy02, resource_id: vip1, listen_ip: 192.168.0.11, port: 19002, username: vip2, password: 123456, account_label: vip2}
+  - {name: proxy03, resource_id: vip2, listen_ip: 192.168.0.12, port: 19003, username: vip3, password: 123456, account_label: vip3}
+  - {name: proxy04, resource_id: fixed-nic1, listen_ip: 192.168.0.250, port: 19004, username: vip4, password: 123456, account_label: vip4}
+  - {name: proxy05, resource_id: nic1, listen_ip: 192.168.0.101, port: 19005, username: vip5, password: 123456, account_label: vip5}
+  - {name: proxy06, resource_id: nic2, listen_ip: 192.168.0.102, port: 19006, username: vip6, password: 123456, account_label: vip6}
+  - {name: proxy07, resource_id: nic3, listen_ip: 192.168.0.103, port: 19007, username: vip7, password: 123456, account_label: vip7}
+  - {name: proxy08, resource_id: nic4, listen_ip: 192.168.0.104, port: 19008, username: vip8, password: 123456, account_label: vip8}
+  - {name: proxy09, resource_id: nic5, listen_ip: 192.168.0.105, port: 19009, username: vip9, password: 123456, account_label: vip9}
+  - {name: proxy10, resource_id: nic6, listen_ip: 192.168.0.106, port: 19010, username: vip10, password: 123456, account_label: vip10}
+  - {name: proxy11, resource_id: nic7, listen_ip: 192.168.0.107, port: 19011, username: vip11, password: 123456, account_label: vip11}
+  - {name: proxy12, resource_id: nic8, listen_ip: 192.168.0.108, port: 19012, username: vip12, password: 123456, account_label: vip12}
+  - {name: proxy13, resource_id: nic9, listen_ip: 192.168.0.109, port: 19013, username: vip13, password: 123456, account_label: vip13}
+  - {name: proxy14, resource_id: nic10, listen_ip: 192.168.0.110, port: 19014, username: vip14, password: 123456, account_label: vip14}
+  - {name: proxy15, resource_id: nic11, listen_ip: 192.168.0.111, port: 19015, username: vip15, password: 123456, account_label: vip15}
+  - {name: proxy16, resource_id: nic12, listen_ip: 192.168.0.112, port: 19016, username: vip16, password: 123456, account_label: vip16}
+  - {name: proxy17, resource_id: nic13, listen_ip: 192.168.0.113, port: 19017, username: vip17, password: 123456, account_label: vip17}
+  - {name: proxy18, resource_id: nic14, listen_ip: 192.168.0.114, port: 19018, username: vip18, password: 123456, account_label: vip18}
+  - {name: proxy19, resource_id: nic15, listen_ip: 192.168.0.115, port: 19019, username: vip19, password: 123456, account_label: vip19}
+  - {name: proxy20, resource_id: nic16, listen_ip: 192.168.0.116, port: 19020, username: vip20, password: 123456, account_label: vip20}

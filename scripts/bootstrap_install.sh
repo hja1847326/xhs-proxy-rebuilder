@@ -44,6 +44,7 @@ main() {
   cp "$PROJECT_DIR/scripts/apply_network_plan.py" "$TARGET_LIB/scripts/apply_network_plan.py"
   cp "$PROJECT_DIR/scripts/apply_netns_expansion.py" "$TARGET_LIB/scripts/apply_netns_expansion.py"
   cp "$PROJECT_DIR/scripts/validate_netns_expansion.py" "$TARGET_LIB/scripts/validate_netns_expansion.py"
+  cp "$PROJECT_DIR/scripts/healthcheck_install.py" "$TARGET_LIB/scripts/healthcheck_install.py"
 
   cp "$PROJECT_DIR/profiles/"*.yaml "$TARGET_LIB/profiles/"
 
